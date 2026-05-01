@@ -30,6 +30,7 @@ export default function SnakeGame({ arena, level, levelKey, profile }) {
   const directionRef = useRef({ x: 1, y: 0 });
   const nextDirectionRef = useRef({ x: 1, y: 0 });
   const gameOverRef = useRef(false);
+  const touchStartRef = useRef(null);
   const [snake, setSnake] = useState(getInitialSnake);
   const [food, setFood] = useState(() => createFood(getInitialSnake(), arena));
   const [score, setScore] = useState(0);
@@ -61,6 +62,63 @@ export default function SnakeGame({ arena, level, levelKey, profile }) {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [setDirection]);
+
+  const handleTouchStart = useCallback((event) => {
+    const touch = event.touches[0];
+    if (!touch) return;
+
+    touchStartRef.current = {
+      x: touch.clientX,
+      y: touch.clientY,
+    };
+  }, []);
+
+  const handleTouchEnd = useCallback(
+    (event) => {
+      const start = touchStartRef.current;
+      touchStartRef.current = null;
+      if (!start) return;
+
+      const touch = event.changedTouches[0];
+      if (!touch) return;
+
+      const deltaX = touch.clientX - start.x;
+      const deltaY = touch.clientY - start.y;
+      const absX = Math.abs(deltaX);
+      const absY = Math.abs(deltaY);
+      const swipeThreshold = 24;
+
+      if (Math.max(absX, absY) >= swipeThreshold) {
+        setDirection(
+          absX > absY
+            ? deltaX > 0
+              ? touchDirections.right
+              : touchDirections.left
+            : deltaY > 0
+              ? touchDirections.down
+              : touchDirections.up,
+        );
+        return;
+      }
+
+      const board = event.currentTarget.getBoundingClientRect();
+      const tapX = touch.clientX - board.left;
+      const tapY = touch.clientY - board.top;
+      const fromCenterX = tapX - board.width / 2;
+      const fromCenterY = tapY - board.height / 2;
+
+      setDirection(
+        Math.abs(fromCenterX) > Math.abs(fromCenterY)
+          ? fromCenterX > 0
+            ? touchDirections.right
+            : touchDirections.left
+          : fromCenterY > 0
+            ? touchDirections.down
+            : touchDirections.up,
+      );
+    },
+    [setDirection],
+  );
 
   useEffect(() => {
     drawBoard(canvasRef.current, arena, snake, food, profile, obstacleSet);
@@ -155,7 +213,11 @@ export default function SnakeGame({ arena, level, levelKey, profile }) {
           </div>
         </div>
 
-        <div className="relative mx-auto aspect-square w-full max-w-[min(62vh,500px)] overflow-hidden rounded-lg border-8 bg-slate-900">
+        <div
+          className="relative mx-auto aspect-square w-full max-w-[min(62vh,500px)] touch-none overflow-hidden rounded-lg border-8 bg-slate-900"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
           <canvas
             ref={canvasRef}
             width={BOARD_SIZE * CELL_SIZE}
@@ -190,10 +252,10 @@ export default function SnakeGame({ arena, level, levelKey, profile }) {
       <aside className="rounded-lg border border-slate-200 bg-white p-4 shadow-soft">
         <h2 className="text-xl font-black text-slate-950">Controls</h2>
         <p className="mt-1 text-sm leading-6 text-slate-600">
-          Use arrow keys or WASD. On touch devices, use the buttons below.
+          Use arrow keys, WASD, board swipes, board taps, or the buttons below.
         </p>
 
-        <div className="mt-3 grid grid-cols-3 gap-2">
+        <div className="mx-auto mt-3 grid max-w-64 grid-cols-3 gap-2 sm:max-w-none">
           <span />
           <ControlButton label="Up" onClick={() => setDirection(touchDirections.up)}>
             <ArrowUp className="h-5 w-5" />
@@ -236,7 +298,7 @@ function ControlButton({ children, label, onClick }) {
       onClick={onClick}
       aria-label={label}
       title={label}
-      className="grid aspect-square place-items-center rounded-md border border-slate-300 bg-white text-slate-900 transition hover:border-emerald-400 hover:bg-emerald-50"
+      className="grid aspect-square min-h-16 touch-manipulation place-items-center rounded-md border border-slate-300 bg-white text-slate-900 transition hover:border-emerald-400 hover:bg-emerald-50 active:border-emerald-600 active:bg-emerald-100 sm:min-h-14"
     >
       {children}
     </button>
