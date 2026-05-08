@@ -13,19 +13,19 @@ const navItems = [
 export default function Header({ compact = false }) {
   return (
     <header
-      className={`mx-auto flex w-full max-w-6xl flex-col gap-5 px-4 sm:px-6 lg:px-8 ${
-        compact ? "py-2" : "py-6"
+      className={`mx-auto flex w-full max-w-6xl flex-col gap-5 px-3 sm:px-6 lg:px-8 ${
+        compact ? "py-1 sm:py-2" : "py-6"
       }`}
     >
       <div
-        className={`flex flex-col justify-between gap-4 rounded-lg border border-slate-200/80 bg-white/80 shadow-soft backdrop-blur md:flex-row md:items-center ${
-          compact ? "px-4 py-2" : "px-5 py-4"
+        className={`flex flex-col justify-between rounded-lg border border-slate-200/80 bg-white/80 shadow-soft backdrop-blur md:flex-row md:items-center ${
+          compact ? "gap-2 px-2 py-2 sm:gap-4 sm:px-4" : "gap-4 px-5 py-4"
         }`}
       >
-        <Link href="/" className="group flex items-center gap-3">
+        <Link href="/" className="group flex items-center gap-2 sm:gap-3">
           <span
             className={`grid place-items-center rounded-lg bg-emerald-900 font-black text-lime-300 ${
-              compact ? "h-9 w-9 text-base" : "h-11 w-11 text-lg"
+              compact ? "h-8 w-8 text-sm sm:h-9 sm:w-9 sm:text-base" : "h-11 w-11 text-lg"
             }`}
           >
             S
@@ -33,28 +33,34 @@ export default function Header({ compact = false }) {
           <span>
             <span
               className={`block font-black tracking-normal text-slate-950 ${
-                compact ? "text-lg" : "text-xl"
+                compact ? "text-base sm:text-lg" : "text-xl"
               }`}
             >
               Snake Arena
             </span>
-            <span className="block text-xs font-medium text-slate-500 sm:text-sm">
+            <span
+              className={`text-xs font-medium text-slate-500 sm:text-sm ${
+                compact ? "hidden sm:block" : "block"
+              }`}
+            >
               Custom browser snake battles
             </span>
           </span>
         </Link>
 
-        <nav className="grid grid-cols-2 gap-2 sm:flex">
+        <nav className={compact ? "grid grid-cols-4 gap-1 sm:flex sm:gap-2" : "grid grid-cols-2 gap-2 sm:flex"}>
           {navItems.map(({ href, label, icon: Icon }) => (
             <Link
               key={href}
               href={href}
               className={`inline-flex items-center justify-center gap-2 rounded-md border border-slate-200 bg-white px-3 text-sm font-bold text-slate-700 transition hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-900 ${
-                compact ? "h-9" : "h-10"
+                compact ? "h-8 px-2 sm:h-9 sm:px-3" : "h-10"
               }`}
             >
               <Icon className="h-4 w-4" aria-hidden="true" />
-              {label}
+              <span className={compact ? "sr-only sm:not-sr-only" : ""}>
+                {label}
+              </span>
             </Link>
           ))}
         </nav>

@@ -197,24 +197,24 @@ export default function SnakeGame({ arena, level, levelKey, profile }) {
   ]);
 
   return (
-    <section className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_300px]">
-      <div className="rounded-lg border border-slate-200 bg-white p-2 shadow-soft sm:p-3">
-        <div className="mb-2 flex flex-wrap items-center justify-between gap-3">
+    <section className="grid gap-2 sm:gap-3 lg:grid-cols-[minmax(0,1fr)_300px]">
+      <div className="rounded-lg border border-slate-200 bg-white p-1.5 shadow-soft sm:p-3">
+        <div className="mb-1 flex flex-wrap items-center justify-between gap-2 sm:mb-2 sm:gap-3">
           <div>
             <span className="text-xs font-black uppercase text-slate-500">
               Score
             </span>
-            <strong className="block text-2xl font-black text-slate-950">
+            <strong className="block text-xl font-black text-slate-950 sm:text-2xl">
               {score}
             </strong>
           </div>
-          <div className="rounded-md bg-slate-100 px-3 py-2 text-sm font-black capitalize text-slate-700">
+          <div className="rounded-md bg-slate-100 px-2 py-1.5 text-xs font-black capitalize text-slate-700 sm:px-3 sm:py-2 sm:text-sm">
             {levelKey} level · {level.speed} ms
           </div>
         </div>
 
         <div
-          className="relative mx-auto aspect-square w-full max-w-[min(100%,calc(100dvh-17rem),500px)] touch-none select-none overflow-hidden rounded-lg border-4 bg-slate-900 sm:border-8 lg:max-w-[min(62dvh,500px)]"
+          className="relative mx-auto aspect-square w-full max-w-[min(100%,calc(100dvh-18rem),500px)] touch-none select-none overflow-hidden rounded-lg border-4 bg-slate-900 sm:border-8 sm:max-w-[min(100%,calc(100dvh-20rem),500px)] lg:max-w-[min(62dvh,500px)]"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
@@ -249,13 +249,13 @@ export default function SnakeGame({ arena, level, levelKey, profile }) {
         </div>
       </div>
 
-      <aside className="rounded-lg border border-slate-200 bg-white p-3 shadow-soft sm:p-4">
-        <h2 className="text-lg font-black text-slate-950 sm:text-xl">Controls</h2>
-        <p className="mt-1 text-sm leading-5 text-slate-600 sm:leading-6">
+      <aside className="rounded-lg border border-slate-200 bg-white p-2 shadow-soft sm:p-4">
+        <h2 className="sr-only sm:not-sr-only sm:text-xl sm:font-black sm:text-slate-950">Controls</h2>
+        <p className="hidden text-sm leading-6 text-slate-600 sm:mt-1 sm:block">
           Use arrow keys, WASD, board swipes, board taps, or the buttons below.
         </p>
 
-        <div className="mx-auto mt-3 grid max-w-56 grid-cols-3 gap-2 sm:max-w-none">
+        <div className="mx-auto grid max-w-40 grid-cols-3 gap-1.5 sm:mt-3 sm:max-w-none sm:gap-2">
           <span />
           <ControlButton label="Up" onClick={() => setDirection(touchDirections.up)}>
             <ArrowUp className="h-5 w-5" />
@@ -281,7 +281,7 @@ export default function SnakeGame({ arena, level, levelKey, profile }) {
           </ControlButton>
         </div>
 
-        <div className="mt-3 grid gap-2 rounded-lg bg-slate-50 p-3 text-sm sm:mt-4 sm:gap-3">
+        <div className="hidden rounded-lg bg-slate-50 p-3 text-sm sm:mt-4 sm:grid sm:gap-3">
           <Stat label="Snake length" value={snake.length} />
           <Stat label="Arena" value={arena.name} />
           <Stat label="Speed" value={`${level.speed} ms`} />
@@ -298,7 +298,7 @@ function ControlButton({ children, label, onClick }) {
       onClick={onClick}
       aria-label={label}
       title={label}
-      className="grid aspect-square min-h-12 touch-manipulation place-items-center rounded-md border border-slate-300 bg-white text-slate-900 transition hover:border-emerald-400 hover:bg-emerald-50 active:border-emerald-600 active:bg-emerald-100 sm:min-h-14"
+      className="grid aspect-square min-h-9 touch-manipulation place-items-center rounded-md border border-slate-300 bg-white text-slate-900 transition hover:border-emerald-400 hover:bg-emerald-50 active:border-emerald-600 active:bg-emerald-100 sm:min-h-14"
     >
       {children}
     </button>
