@@ -198,7 +198,7 @@ export default function SnakeGame({ arena, level, levelKey, profile }) {
 
   return (
     <section className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_300px]">
-      <div className="rounded-lg border border-slate-200 bg-white p-3 shadow-soft">
+      <div className="rounded-lg border border-slate-200 bg-white p-2 shadow-soft sm:p-3">
         <div className="mb-2 flex flex-wrap items-center justify-between gap-3">
           <div>
             <span className="text-xs font-black uppercase text-slate-500">
@@ -214,7 +214,7 @@ export default function SnakeGame({ arena, level, levelKey, profile }) {
         </div>
 
         <div
-          className="relative mx-auto aspect-square w-full max-w-[min(62vh,500px)] touch-none overflow-hidden rounded-lg border-8 bg-slate-900"
+          className="relative mx-auto aspect-square w-full max-w-[min(100%,calc(100dvh-17rem),500px)] touch-none select-none overflow-hidden rounded-lg border-4 bg-slate-900 sm:border-8 lg:max-w-[min(62dvh,500px)]"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
@@ -249,13 +249,13 @@ export default function SnakeGame({ arena, level, levelKey, profile }) {
         </div>
       </div>
 
-      <aside className="rounded-lg border border-slate-200 bg-white p-4 shadow-soft">
-        <h2 className="text-xl font-black text-slate-950">Controls</h2>
-        <p className="mt-1 text-sm leading-6 text-slate-600">
+      <aside className="rounded-lg border border-slate-200 bg-white p-3 shadow-soft sm:p-4">
+        <h2 className="text-lg font-black text-slate-950 sm:text-xl">Controls</h2>
+        <p className="mt-1 text-sm leading-5 text-slate-600 sm:leading-6">
           Use arrow keys, WASD, board swipes, board taps, or the buttons below.
         </p>
 
-        <div className="mx-auto mt-3 grid max-w-64 grid-cols-3 gap-2 sm:max-w-none">
+        <div className="mx-auto mt-3 grid max-w-56 grid-cols-3 gap-2 sm:max-w-none">
           <span />
           <ControlButton label="Up" onClick={() => setDirection(touchDirections.up)}>
             <ArrowUp className="h-5 w-5" />
@@ -281,7 +281,7 @@ export default function SnakeGame({ arena, level, levelKey, profile }) {
           </ControlButton>
         </div>
 
-        <div className="mt-4 grid gap-3 rounded-lg bg-slate-50 p-3 text-sm">
+        <div className="mt-3 grid gap-2 rounded-lg bg-slate-50 p-3 text-sm sm:mt-4 sm:gap-3">
           <Stat label="Snake length" value={snake.length} />
           <Stat label="Arena" value={arena.name} />
           <Stat label="Speed" value={`${level.speed} ms`} />
@@ -298,7 +298,7 @@ function ControlButton({ children, label, onClick }) {
       onClick={onClick}
       aria-label={label}
       title={label}
-      className="grid aspect-square min-h-16 touch-manipulation place-items-center rounded-md border border-slate-300 bg-white text-slate-900 transition hover:border-emerald-400 hover:bg-emerald-50 active:border-emerald-600 active:bg-emerald-100 sm:min-h-14"
+      className="grid aspect-square min-h-12 touch-manipulation place-items-center rounded-md border border-slate-300 bg-white text-slate-900 transition hover:border-emerald-400 hover:bg-emerald-50 active:border-emerald-600 active:bg-emerald-100 sm:min-h-14"
     >
       {children}
     </button>

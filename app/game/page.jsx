@@ -60,14 +60,14 @@ export default function GamePage() {
           <h1 className="text-2xl font-black text-slate-950 sm:text-3xl">
             {arena.name}
           </h1>
-          <p className="mt-1 max-w-2xl text-sm leading-6 text-slate-600">
+          <p className="mt-1 max-w-2xl text-sm leading-5 text-slate-600 sm:leading-6">
             Player: <strong>{profile.username}</strong>. Use arrow keys or WASD
             on keyboard, or the touch controls below the board.
           </p>
         </div>
 
         <div className="rounded-lg border border-slate-200 bg-white p-3 shadow-soft">
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <div className="flex min-w-0 flex-1 items-center gap-2 text-sm font-black text-slate-800">
               <Gauge className="h-4 w-4 shrink-0" aria-hidden="true" />
               Level speed
@@ -94,7 +94,7 @@ export default function GamePage() {
               </label>
             ) : null}
           </div>
-          <div className="mt-2 grid grid-cols-4 gap-2">
+          <div className="mt-2 grid grid-cols-2 gap-2 min-[420px]:grid-cols-4">
             {Object.entries(levels).map(([key, level]) => {
               const isActive = levelKey === key;
 
@@ -117,7 +117,7 @@ export default function GamePage() {
               );
             })}
           </div>
-          <p className="mt-2 text-xs leading-5 text-slate-500">
+          <p className="mt-2 text-xs leading-4 text-slate-500 sm:leading-5">
             {selectedLevel.description}
           </p>
         </div>
@@ -131,11 +131,11 @@ export default function GamePage() {
         profile={profile}
       />
 
-      <div className="mt-3 flex flex-wrap gap-3">
+      <div className="mt-3 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap">
         <button
           type="button"
           onClick={() => setGameKey((current) => current + 1)}
-          className="inline-flex h-11 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-4 text-sm font-black text-slate-800 transition hover:bg-slate-50"
+          className="inline-flex h-11 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-sm font-black text-slate-800 transition hover:bg-slate-50 sm:px-4"
         >
           <RotateCcw className="h-4 w-4" aria-hidden="true" />
           Reset round
@@ -143,7 +143,7 @@ export default function GamePage() {
         <button
           type="button"
           onClick={() => setGameKey((current) => current + 1)}
-          className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-slate-950 px-4 text-sm font-black text-white transition hover:bg-emerald-800"
+          className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-slate-950 px-3 text-sm font-black text-white transition hover:bg-emerald-800 sm:px-4"
         >
           <Play className="h-4 w-4" aria-hidden="true" />
           Start again
